@@ -1,0 +1,37 @@
+name: SmartGolfCaddie
+options:
+  bundleIdPrefix: com.tylormcgill
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+targets:
+  SmartGolfCaddie:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tylormcgill.smartgolfcaddie
+        INFOPLIST_KEY_CFBundleDisplayName: Smart Golf Caddie
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+    entitlements:
+      path: App/SmartGolfCaddie.entitlements
+    dependencies:
+      - target: SmartGolfCaddieWidget
+  SmartGolfCaddieWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tylormcgill.smartgolfcaddie.widget
+        INFOPLIST_KEY_CFBundleDisplayName: Golf Caddie
+        SWIFT_EMIT_LOC_STRINGS: YES
+    entitlements:
+      path: Widget/SmartGolfCaddieWidget.entitlements
