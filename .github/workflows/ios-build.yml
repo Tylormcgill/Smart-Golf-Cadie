@@ -1,0 +1,35 @@
+name: Build iOS app
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios-build.yml'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        working-directory: ios
+        run: xcodegen generate
+
+      - name: Build unsigned iOS app
+        working-directory: ios
+        run: xcodebuild -project SmartGolfCaddie.xcodeproj -scheme SmartGolfCaddie -sdk iphoneos -configuration Release CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build | xcbeautify || true
+
+      - name: Package source
+        run: zip -r SmartGolfCaddie-iOS-source.zip ios
+
+      - name: Upload project artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmartGolfCaddie-iOS-project
+          path: SmartGolfCaddie-iOS-source.zip
